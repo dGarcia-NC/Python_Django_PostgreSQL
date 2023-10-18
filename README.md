@@ -1,4 +1,4 @@
-# django_playground
+# Python template that uses Django and PostgreSQL
 
 ### Install project on the local system
 ```bash
