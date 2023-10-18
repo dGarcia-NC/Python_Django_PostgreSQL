@@ -15,8 +15,12 @@ startproject:
 up:
 	docker-compose up
 
+# To clear any containers
+down:
+	docker-compose down
+
 # Build our docker image
 build:
 	docker-compose build
 
-.PHONY: lint test startproject up build
+.PHONY: lint test startproject up build down

@@ -23,6 +23,12 @@ ARG DEV=false
 RUN python -m venv /py && \
     # Upgrades the python package manager inside the virtual environment
     /py/bin/pip install --upgrade pip && \
+    # We install the postgresl-client inside the alpine image in order for psycopg2 package to connect to postgresql
+    apk add --update --no-cache postgresql-client && \
+    # Sets a virtual dependency package and groups them into `.tmp-build-deps`
+    apk add --update --no-cache --virtual .tmp-build-deps \
+      # Install those packages and store in `.tmp-build-deps`
+      build-base postgresql-dev musl-dev && \
     # Install our requirements from /tmp/requirements.txt into our docker image
     /py/bin/pip install -r /tmp/requirements.txt && \
     # Shell code/script that does an if statement for when dev equals true
@@ -31,6 +37,8 @@ RUN python -m venv /py && \
     fi && \
     # Then we remove the /tmp directory so there are no extra unecessary files on the image
     rm -rf /tmp && \
+    # We removet `.tmp-build-deps` to keep our docker file as light weight as possible
+    apk del .tmp-build-deps && \
     # adduser block calls the 'adduser' command which adds a new user inside our image
     # It's best practice not to use the root user
     adduser \
