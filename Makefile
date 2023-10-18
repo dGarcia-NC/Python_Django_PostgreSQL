@@ -11,6 +11,10 @@ test:
 startproject:
 	docker-compose run --rm app sh -c "django-admin startproject app ."
 
+# Creates a new project named 'core' in our directory
+startapp:
+	docker-compose run --rm app sh -c "python manage.py startapp core"
+
 # Start services
 up:
 	docker-compose up
@@ -23,4 +27,4 @@ down:
 build:
 	docker-compose build
 
-.PHONY: lint test startproject up build down
+.PHONY: lint test startproject up build down startapp
